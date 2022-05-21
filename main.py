@@ -1,35 +1,19 @@
-import smtplib, ssl
-import csv
+import smtplib
+import os
 
-        
+EMAIL_ADDRESS = os.environ.get('EMAIL_ADDRESS')
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
-sender_email = 'domtom1126@gmail.com'
-receiver_email = 'domtom1126@gmail.com'
-message = 'blank message'
+with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+    smtp.ehlo()
+    smtp.starttls()
+    smtp.ehlo()
 
-# port = 465
-# password = "dev_E11!ps!s"
+    smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
 
-# context = ssl. create_default_context()
+    subject = 'Test email'
+    body = 'This is a test email from the python script.'
 
-# with smtplib.SMTP_SSL('smtp.gmail.com', port, context=context) as server:
-#     server.connect()
-#     server.login(sender_email, password)
-#     server.sendmail(sender_email, receiver_email, message)
-#     server.quit()
-smtp_server = 'smtp.gmail.com'
-port = 587
+    msg = f'Subject: {subject}\n\n{body}'
 
-password = 'ggl_E11!ps!s'
-
-context = ssl.create_default_context()
-
-try:
-        server = smtplib.SMTP(smtp_server, port)
-        server.starttls(context=context)
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
-except Exception as e:
-            print(e)
-finally:
-            server.quit()
+    smtp.sendmail(EMAIL_ADDRESS, EMAIL_ADDRESS, msg)
