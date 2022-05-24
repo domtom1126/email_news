@@ -8,9 +8,8 @@ def getNews():
     soup = BeautifulSoup(page.content, "html.parser")
     results = soup.find_all('a', class_='titlelink', href=True)
     # returns a list of all the links on the page on serpate lines 
-    for link in results:
-        link_list = [link.get('href')]
-        return link_list[:10]
+    # with the title of the article
+    print(results.text)
     
 
-getNews()
+# getNews()
